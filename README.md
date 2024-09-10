@@ -7,6 +7,7 @@ The following is the project source file structure.
 
 ```shell
 posix-peer-gateway-sync/
+├── Makefile
 ├── Dockerfile.gateway
 ├── Dockerfile.peer
 ├── docker-compose.yml
@@ -17,6 +18,7 @@ posix-peer-gateway-sync/
 │   └── main.rs
 ├── svckit/
 │   ├── lib.rs
+│   ├── fullduplexer-fifo-context.rs
 │   ├── fullduplexer.rs
 │   ├── fullduplex-peer.rs
 │   └── fullduplex-peer-gateway.rs
