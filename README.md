@@ -18,7 +18,7 @@ posix-peer-gateway-sync/
 │   ├── lib.rs
 │   ├── fullduplexer.rs
 │   ├── fullduplex-peer.rs
-│   └── fullduplex-gateway.rs
+│   └── fullduplex-peer-gateway.rs
 ```
 
 
