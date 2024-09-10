@@ -20,3 +20,14 @@ posix-peer-gateway-sync/
 │   ├── fullduplex-peer.rs
 │   └── fullduplex-gateway.rs
 ```
+
+
+## Build Docker Images and Run
+
+```shell
+# Build the Docker images
+docker-compose build
+
+# Start the services
+docker-compose up
+```
