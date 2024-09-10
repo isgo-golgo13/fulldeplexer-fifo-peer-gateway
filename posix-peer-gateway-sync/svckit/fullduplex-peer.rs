@@ -1,4 +1,4 @@
-use super::FullDuplexer;
+use super::{fullduplexer_fifo_context::FifoContext, FullDuplexer}; // Import FifoContext
 use libc::{open, read, write, O_CREAT, O_NONBLOCK, O_RDONLY, O_WRONLY};
 use std::ffi::CString;
 use std::io::{Read, Result, Write};
@@ -11,18 +11,19 @@ pub struct FullDuplexPeer {
 }
 
 impl FullDuplexPeer {
-    pub fn new(id: &str, read_fifo: &str, write_fifo: &str) -> Self {
+    // Updated to use FifoContext
+    pub fn new(context: FifoContext) -> Self {
         unsafe {
-            let read_path = CString::new(read_fifo).unwrap();
-            let write_path = CString::new(write_fifo).unwrap();
+            let read_path = CString::new(context.read_fifo.clone()).unwrap();
+            let write_path = CString::new(context.write_fifo.clone()).unwrap();
             libc::mkfifo(read_path.as_ptr(), 0o644);
             libc::mkfifo(write_path.as_ptr(), 0o644);
         }
 
         Self {
-            id: id.to_string(),
-            read_fifo: read_fifo.to_string(),
-            write_fifo: write_fifo.to_string(),
+            id: context.id,
+            read_fifo: context.read_fifo,
+            write_fifo: context.write_fifo,
         }
     }
 
@@ -57,6 +58,7 @@ impl FullDuplexPeer {
     }
 }
 
+// FullDuplexer trait implementation
 impl FullDuplexer for FullDuplexPeer {
     fn send(&self, _ctx: &Context, reader: &mut dyn Read, n: i64) -> Result<usize> {
         let mut buffer = vec![0; n as usize];
