@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    container_name: posix_gateway
+    restart: unless-stopped
+
+  peer1:
+    build:
+      context: .
+      dockerfile: Dockerfile.peer
+    container_name: posix_peer1
+    restart: unless-stopped
+    depends_on:
+      - gateway
+
+  peer2:
+    build:
+      context: .
+      dockerfile: Dockerfile.peer
+    container_name: posix_peer2
+    restart: unless-stopped
+    depends_on:
+      - gateway
