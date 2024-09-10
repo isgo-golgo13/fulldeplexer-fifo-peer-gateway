@@ -12,6 +12,7 @@ posix-peer-gateway-sync/
 ├── docker-compose.yml
 ├── Cargo.toml
 ├── Cargo.lock
+├── .env
 ├── src/
 │   └── main.rs
 ├── svckit/
