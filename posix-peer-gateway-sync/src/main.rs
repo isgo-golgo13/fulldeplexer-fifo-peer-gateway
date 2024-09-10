@@ -12,7 +12,7 @@ fn main() {
 
     let ctx = Context;
 
-    let mut message = Cursor::new(b"Hello from peer1");
+    let mut message = Cursor::new(b"Message from peer1");
     let mut output = Cursor::new(Vec::new());
 
     gateway
