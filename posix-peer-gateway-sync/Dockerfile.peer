@@ -4,25 +4,25 @@ FROM rust:1.56 as builder
 # Set the working directory inside the container
 WORKDIR /usr/src/svckit
 
-# Copy the Cargo.toml and src files into the container
+# Copy the Cargo.toml, Cargo.lock, and source files into the container
 COPY Cargo.toml Cargo.lock ./
 COPY src ./src
 COPY svckit ./svckit
 
-# Build the project for release
-RUN cargo build --release
+# Build the peer binary for release
+RUN cargo build --release --bin posix-peer
 
-# Stage 2: Create a minimal runtime environment
+# Stage 2: Create a minimal runtime environment for the peer
 FROM debian:buster-slim
 
-# Create a non-root user
+# Create a non-root user for security
 RUN useradd -m appuser
 
 # Set the working directory for the runtime container
 WORKDIR /home/appuser
 
-# Copy the compiled binary from the builder stage
-COPY --from=builder /usr/src/svckit/target/release/posix_gateway_sync .
+# Copy the compiled peer binary from the builder stage
+COPY --from=builder /usr/src/svckit/target/release/posix-peer .
 
 # Change ownership of the binary to the non-root user
 RUN chown -R appuser:appuser /home/appuser
@@ -31,4 +31,4 @@ RUN chown -R appuser:appuser /home/appuser
 USER appuser
 
 # Command to run the peer binary
-CMD ["./posix_gateway_sync"]
+CMD ["./posix-peer"]

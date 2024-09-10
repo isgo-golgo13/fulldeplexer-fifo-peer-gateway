@@ -3,24 +3,40 @@ services:
   gateway:
     build:
       context: .
-      dockerfile: Dockerfile.gateway
+      dockerfile: Dockerfile.gateway # Use the correct Dockerfile for the gateway
     container_name: posix_gateway
     restart: unless-stopped
+    environment:
+      - RUST_LOG=info # Optional environment variable for logging
+    networks:
+      - posix_network
 
   peer1:
     build:
       context: .
-      dockerfile: Dockerfile.peer
+      dockerfile: Dockerfile.peer # Use the correct Dockerfile for the peer
     container_name: posix_peer1
     restart: unless-stopped
     depends_on:
       - gateway
+    environment:
+      - RUST_LOG=info # Optional environment variable for logging
+    networks:
+      - posix_network
 
   peer2:
     build:
       context: .
-      dockerfile: Dockerfile.peer
+      dockerfile: Dockerfile.peer # Use the same Dockerfile as peer1
     container_name: posix_peer2
     restart: unless-stopped
     depends_on:
       - gateway
+    environment:
+      - RUST_LOG=info # Optional environment variable for logging
+    networks:
+      - posix_network
+
+networks:
+  posix_network:
+    driver: bridge

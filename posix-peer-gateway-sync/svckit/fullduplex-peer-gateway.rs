@@ -1,17 +1,18 @@
 use super::{Context, FullDuplexPeer, FullDuplexer};
+use std::boxed::Box;
 use std::collections::HashMap;
 use std::io::{Read, Result, Write};
 
 pub struct FullDuplexPeerGateway {
-    active_peers: HashMap<String, FullDuplexPeer>,
-    inactive_peers: HashMap<String, FullDuplexPeer>,
+    active_peers: Box<HashMap<String, FullDuplexPeer>>,
+    inactive_peers: Box<HashMap<String, FullDuplexPeer>>,
 }
 
 impl FullDuplexPeerGateway {
     pub fn new() -> Self {
         Self {
-            active_peers: HashMap::new(),
-            inactive_peers: HashMap::new(),
+            active_peers: Box::new(HashMap::new()),
+            inactive_peers: Box::new(HashMap::new()),
         }
     }
 
